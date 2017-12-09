@@ -1,0 +1,4 @@
+<p>
+  <span class="text-right">Last Update: {{(lastUpdate | async) | date:'mediumTime'}} | Total items: {{(todos |async).length}}</span>
+</p>
+<button mat-raised-button (click)="clearTodos()">Delete all</button>

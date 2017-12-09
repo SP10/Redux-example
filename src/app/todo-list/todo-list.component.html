@@ -1,0 +1,65 @@
+<h6>Create Todo:</h6>
+<form (ngSubmit)='onSubmit()' #todoForm="ngForm">
+  <mat-form-field>
+    <input matInput type="text" placeholder="Description" [value]="model.description" [(ngModel)]="model.description" name="description" #description>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Responsible" [value]="model.responsible" [(ngModel)]="model.responsible" name="responsible" #responsible>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Priority" [(ngModel)]="model.priority" name="priority">
+      <mat-option *ngFor="let priority of priorites" [value]="priority.value">
+        {{ priority.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button type="submit">Create</button>
+</form>
+<br/>
+<mat-table #table [dataSource]="dataSource">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef> Dscription </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="responsible">
+        <mat-header-cell *matHeaderCellDef> Responsible </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.responsible}} </mat-cell>
+      </ng-container>
+  
+      <!-- Color Column -->
+      <ng-container matColumnDef="priority">
+        <mat-header-cell *matHeaderCellDef> Priority </mat-header-cell>
+        <mat-cell *matCellDef="let element"> 
+            <mat-chip-list> 
+              <mat-chip *ngIf="element.priority=='low'" color="" style="background-color: #00e676" selected="true">{{element.priority}} </mat-chip>
+              <mat-chip *ngIf="element.priority=='medium'" color="" style="background-color: #00a5e6" selected="true">{{element.priority}} </mat-chip> 
+              <mat-chip *ngIf="element.priority=='high'" color="" style="background-color: #da2c51e7" selected="true">{{element.priority}} </mat-chip>  
+            </mat-chip-list>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="isCompleted">
+        <mat-header-cell *matHeaderCellDef> Is completed </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.isCompleted}} </mat-cell>
+      </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="removeTodo(element)">Delete</button> 
+      </mat-cell>
+    </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table> 
